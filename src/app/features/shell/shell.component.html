@@ -1,0 +1,75 @@
+<header class="topbar">
+  <a routerLink="/dashboard" class="brand">Report portal</a>
+  <nav class="nav nav--top" aria-label="Primary" (mouseleave)="closeDropdown()">
+    @for (item of menu(); track item.label) {
+      @if (isDropdown(item)) {
+        <div class="dropdown" [class.open]="openDropdown() === item.label">
+          <button type="button" class="dropdown-toggle" (click)="toggle(item.label)">
+            {{ item.label }}
+            <span class="caret" aria-hidden="true"></span>
+          </button>
+          <div class="dropdown-panel" role="menu">
+            @for (child of item.children!; track child.routerLink) {
+              <a
+                role="menuitem"
+                [routerLink]="child.routerLink"
+                routerLinkActive="active"
+                (click)="closeDropdown()"
+              >
+                {{ child.label }}
+              </a>
+            }
+          </div>
+        </div>
+      } @else {
+        <a [routerLink]="item.routerLink" routerLinkActive="active">{{ item.label }}</a>
+      }
+    }
+  </nav>
+  <div class="spacer"></div>
+  <div class="meta">
+    <span class="user">{{ username() }}</span>
+    <span class="roles" [title]="rolesLabel()">{{ rolesLabel() }}</span>
+  </div>
+  <button type="button" class="ghost" (click)="logout()">Sign out</button>
+</header>
+
+<div class="layout no-sidebar">
+  <main class="main">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+<!-- 
+<div class="layout">
+   <aside class="side-menu" aria-label="Section navigation">
+    <nav class="side-nav">
+      @for (item of menu(); track item.label) {
+        @if (isDropdown(item)) {
+          <p class="side-nav__heading">{{ item.label }}</p>
+          @for (child of item.children!; track child.routerLink) {
+            <a
+              class="side-nav__link"
+              [routerLink]="child.routerLink"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              {{ child.label }}
+            </a>
+          }
+        } @else {
+          <a
+            class="side-nav__link side-nav__link--top"
+            [routerLink]="item.routerLink"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: item.routerLink === '/dashboard' }"
+          >
+            {{ item.label }}
+          </a>
+        }
+      }
+    </nav>
+  </aside>
+  <main class="main">
+    <router-outlet />
+  </main>
+</div> -->

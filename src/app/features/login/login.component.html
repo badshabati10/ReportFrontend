@@ -1,0 +1,29 @@
+<div class="page">
+  <div class="card">
+    <h1>Sign in</h1>
+    @if (sessionMessage()) {
+      <p class="banner">{{ sessionMessage() }}</p>
+    }
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <label>
+        Username
+        <input type="text" formControlName="username" autocomplete="username" />
+      </label>
+      <label>
+        Password
+        <input type="password" formControlName="password" autocomplete="current-password" />
+      </label>
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+      <button type="submit" [disabled]="loading()">
+        {{ loading() ? 'Signing in…' : 'Sign in' }}
+      </button>
+    </form>
+    <p class="hint">
+      Start <code>db2-spring-api</code> on port <code>8080</code>, then use this app with
+      <code>ng serve</code> (requests use the dev proxy). Dev user: <code>admin</code> /
+      <code>ChangeMe!123</code>
+    </p>
+  </div>
+</div>

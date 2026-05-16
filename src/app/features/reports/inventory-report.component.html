@@ -1,0 +1,33 @@
+<h1>Inventory summary</h1>
+<p class="lead">Data from <code>GET /api/v1/products/stats</code> (authenticated).</p>
+
+@if (loading()) {
+  <p>Loading…</p>
+} @else if (error()) {
+  <p class="error">{{ error() }}</p>
+} @else {
+  @if (stats(); as s) {
+    <div class="toolbar">
+      <button type="button" (click)="refresh()">Refresh</button>
+      <button type="button" class="secondary" (click)="downloadCsv()">Download CSV</button>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Product count</td>
+          <td>{{ s.productCount }}</td>
+        </tr>
+        <tr>
+          <td>Sum of unit prices</td>
+          <td>{{ s.sumUnitPrice | number: '1.2-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  }
+}
