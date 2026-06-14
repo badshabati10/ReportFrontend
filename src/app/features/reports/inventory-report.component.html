@@ -9,7 +9,27 @@
   @if (stats(); as s) {
     <div class="toolbar">
       <button type="button" (click)="refresh()">Refresh</button>
-      <button type="button" class="secondary" (click)="downloadCsv()">Download CSV</button>
+      <div
+        class="download-dropdown"
+        [class.open]="downloadDropdownOpen()"
+        (mouseenter)="openDownloadDropdown()"
+        (mouseleave)="closeDownloadDropdown()"
+        (focusin)="openDownloadDropdown()"
+        (focusout)="closeDownloadDropdown()"
+      >
+        <button type="button" class="secondary" (click)="toggleDownloadDropdown()">
+          Download
+          <span class="dropdown-arrow" [class.open]="downloadDropdownOpen()">▼</span>
+        </button>
+        @if (downloadDropdownOpen()) {
+          <div class="download-menu">
+            <button type="button" class="menu-item" (click)="downloadPdf()">Download PDF</button>
+            <button type="button" class="menu-item" (click)="downloadCsv()">Download CSV</button>
+            <button type="button" class="menu-item" (click)="downloadExcel()">Download Excel</button>
+            <button type="button" class="menu-item" (click)="downloadXml()">Download XML</button>
+          </div>
+        }
+      </div>
     </div>
     <table>
       <thead>

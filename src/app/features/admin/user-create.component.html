@@ -1,0 +1,30 @@
+<div class="user-create">
+  <h2>Create User</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <div class="field">
+      <label>Username</label>
+      <input type="text" formControlName="username" />
+    </div>
+
+    <div class="field">
+      <label>Password</label>
+      <input type="password" formControlName="password" />
+    </div>
+
+    <div class="field">
+      <label>Role</label>
+      <div *ngIf="loadingRoles()">Loading roles...</div>
+      <select formControlName="roles" *ngIf="!loadingRoles()">
+        <option *ngFor="let role of roles()" [value]="role.id">{{ role.name }}</option>
+      </select>
+    </div>
+
+    <div class="actions">
+      <button type="submit" [disabled]="loading() || loadingRoles()">Create</button>
+    </div>
+  </form>
+
+  <div class="msg success" *ngIf="success()">{{ success() }}</div>
+  <div class="msg error" *ngIf="error()">{{ error() }}</div>
+</div>

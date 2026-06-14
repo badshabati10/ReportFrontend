@@ -1,10 +1,20 @@
 <header class="topbar">
   <a routerLink="/dashboard" class="brand">Report portal</a>
-  <nav class="nav nav--top" aria-label="Primary" (mouseleave)="closeDropdown()">
-    @for (item of menu(); track item.label) {
+  <nav class="nav nav--top" aria-label="Primary" (mouseleave)="closeDropdownOnLeave()">
+    @for (item of menu | async; track item.label) {
       @if (isDropdown(item)) {
-        <div class="dropdown" [class.open]="openDropdown() === item.label">
+        <div 
+          class="dropdown" 
+          [class.open]="isDropdownOpen(item.label)"
+          (mouseenter)="openDropdownOnHover(item.label)"
+          (mouseleave)="closeDropdownOnLeave()"
+          (focusin)="openDropdownOnHover(item.label)"
+          (focusout)="closeDropdownOnLeave()"
+        >
           <button type="button" class="dropdown-toggle" (click)="toggle(item.label)">
+            @if (item.icon) {
+              <span class="icon" [attr.data-icon]="item.icon"></span>
+            }
             {{ item.label }}
             <span class="caret" aria-hidden="true"></span>
           </button>
@@ -14,15 +24,23 @@
                 role="menuitem"
                 [routerLink]="child.routerLink"
                 routerLinkActive="active"
-                (click)="closeDropdown()"
+                (click)="onMenuLinkClick()"
               >
+                @if (child.icon) {
+                  <span class="icon" [attr.data-icon]="child.icon"></span>
+                }
                 {{ child.label }}
               </a>
             }
           </div>
         </div>
       } @else {
-        <a [routerLink]="item.routerLink" routerLinkActive="active">{{ item.label }}</a>
+        <a [routerLink]="item.routerLink" routerLinkActive="active" (click)="onMenuLinkClick()">
+          @if (item.icon) {
+            <span class="icon" [attr.data-icon]="item.icon"></span>
+          }
+          {{ item.label }}
+        </a>
       }
     }
   </nav>

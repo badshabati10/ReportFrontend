@@ -1,52 +1,36 @@
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { MenuItem } from '../models/menu-item.model';
-import { AuthService } from './auth.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { MenuItem, UserMenuResponseDto } from '../models/menu-item.model';
 
 @Injectable({ providedIn: 'root' })
 export class MenuService {
-  private readonly auth = inject(AuthService);
+  private readonly http = inject(HttpClient);
 
   /**
-   * Full menu definition; entries with `roles` require at least one match.
-   * Parent dropdowns appear only when at least one child is visible.
+   * Loads role-based menu from database via API endpoint.
+   * Returns hierarchical menu structure filtered by user's role.
    */
-  getMenu(): MenuItem[] {
-    const items: MenuItem[] = [
-      { label: 'Dashboard', routerLink: '/dashboard' },
-      {
-        label: 'Reports',
-        children: [
-          {
-            label: 'Inventory summary',
-            routerLink: '/reports/inventory',
-            roles: ['ROLE_ADMIN'],
-          },
-          {
-            label: 'Product catalog',
-            routerLink: '/reports/products',
-            roles: ['ROLE_ADMIN', 'ROLE_USER'],
-          },
-        ],
-      },
-    ];
-    return this.filterMenu(items);
+  getMenu(): Observable<MenuItem[]> {
+    return this.http
+      .get<UserMenuResponseDto>(`${environment.apiUrl}/api/v1/menus/my-menus`)
+      .pipe(
+        map((response) =>
+          this.mapMenus(response.menus)
+        )
+      );
   }
 
-  private filterMenu(items: MenuItem[]): MenuItem[] {
-    const result: MenuItem[] = [];
-    for (const item of items) {
-      if (item.children?.length) {
-        const children = this.filterMenu(item.children);
-        if (children.length > 0) {
-          result.push({ ...item, children });
-        }
-        continue;
-      }
-      const visible = !item.roles?.length || this.auth.hasAnyRole(item.roles);
-      if (visible && item.routerLink) {
-        result.push(item);
-      }
-    }
-    return result;
+  /**
+   * Maps backend menu structure (route -> routerLink)
+   */
+  private mapMenus(menus: MenuItem[]): MenuItem[] {
+    return menus.map((menu) => ({
+      ...menu,
+      routerLink: menu.route,
+      children: menu.children ? this.mapMenus(menu.children) : [],
+    }));
   }
 }

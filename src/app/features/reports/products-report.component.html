@@ -11,14 +11,34 @@
 } @else {
   <div class="toolbar">
     <button type="button" (click)="refresh()">Refresh</button>
-    <button type="button" class="secondary" (click)="downloadCsv()">Download CSV</button>
-    <button type="button" class="secondary" [disabled]="pdfLoading()" (click)="openProductDetailsPdf()">
-      @if (pdfLoading()) {
-        Opening PDF…
-      } @else {
-        Open PDF report
+    <div
+      class="download-dropdown"
+      [class.open]="downloadDropdownOpen()"
+      (mouseenter)="openDownloadDropdown()"
+      (mouseleave)="closeDownloadDropdown()"
+      (focusin)="openDownloadDropdown()"
+      (focusout)="closeDownloadDropdown()"
+    >
+      <button type="button" class="secondary" (click)="toggleDownloadDropdown()">
+        Download
+        <span class="dropdown-arrow" [class.open]="downloadDropdownOpen()">▼</span>
+      </button>
+      @if (downloadDropdownOpen()) {
+        <div class="download-menu">
+          <button type="button" class="menu-item" [disabled]="pdfLoading()" (click)="downloadPdf()">
+            @if (pdfLoading()) {
+              Downloading PDF…
+            } @else {
+              Download PDF
+            }
+          </button>
+          <button type="button" class="menu-item" (click)="downloadCsv()">Download CSV</button>
+          <button type="button" class="menu-item" (click)="downloadExcel()">Download Excel</button>
+          <button type="button" class="menu-item" (click)="downloadXml()">Download XML</button>
+          <button type="button" class="menu-item" (click)="downloadXmlReport()"> Download XML Report</button>
+        </div>
       }
-    </button>
+    </div>
   </div>
   <div class="table-wrap">
     <table>

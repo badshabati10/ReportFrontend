@@ -1,0 +1,30 @@
+.user-create {
+  max-width: 480px;
+  margin: 16px;
+  .field {
+    margin-bottom: 12px;
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    input,
+    select {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+  }
+  .actions {
+    margin-top: 12px;
+  }
+  .msg {
+    margin-top: 12px;
+    &.error {
+      color: #b00020;
+    }
+    &.success {
+      color: #0a7a0a;
+    }
+  }
+}

@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { LocalLCDto } from '../models/Local-lc.model';
+import { Observable } from 'rxjs';
 
 export interface InventoryStatsDto {
   productCount: number;
@@ -33,4 +35,17 @@ export class ReportService {
       responseType: 'blob',
     });
   }
+
+    /** GET /api/v1/lcdata/xml-file — JWT attached by auth interceptor. */
+  getLCDataXmlReport() {
+  return this.http.get(`${environment.apiUrl}/api/v1/locallc/xml-file`, {
+    responseType: 'blob',
+  });
 }
+
+  get_LOcal_LCXML_Data(){
+    return this.http.get<LocalLCDto[]>(`${environment.apiUrl}/api/v1/locallc/all-data`);
+}
+  
+}
+

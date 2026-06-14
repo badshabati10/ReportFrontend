@@ -1,0 +1,34 @@
+export interface LocalLCDto {
+slno: number;
+lc_TYPE: string;
+beneficiary_BIN: number;
+beneficiary_NAME: string;
+beneficiary_ADDRESS: string;
+lc_YEAR: number;
+lc_NATURE: number;
+lc_SERIAL: number;
+currency: number;
+lc_DATE: Date;
+lc_EXPIRY_DATE: Date;
+bb_USANCE_PERIOD: number;
+last_SHIP_DATE: Date;
+arra_CODE: number;
+imp_REGNO: string;
+exp_REGNO: string;
+credit_LIMIT: number;
+approval_AUTHORITY: string;
+utilized_LIMIT: number;
+lc_VALUE: number;
+pi_NUMBER: string;
+pi_DATE: Date;
+boi_REG: string;
+bwarehouse: string;
+advising_AD: number;
+slno2: number;
+commodity_CODE: number;
+unit_CODE: number;
+unit_PRICE: number;
+quantity: number;
+slno3: number;
+flc_NO: string;
+}

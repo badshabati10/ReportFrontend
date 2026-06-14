@@ -1,3 +1,29 @@
+.local-lc-xml-report {
+  margin: 1rem 0;
+}
+
+h2 {
+  margin: 0 0 1rem 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.header h2 {
+  margin: 0;
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
 h1 {
   margin-top: 0;
 }
@@ -9,8 +35,14 @@ h1 {
 
 .toolbar {
   display: flex;
-  gap: 0.5rem;
+  justify-content: flex-end;
+  align-items: center;
   margin-bottom: 1rem;
+}
+
+.toolbar-right {
+  display: flex;
+  gap: 0.5rem;
 }
 
 button {
@@ -21,6 +53,66 @@ button {
   cursor: pointer;
   background: #2563eb;
   color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  min-width: 150px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
+  z-index: 10;
+  overflow: hidden;
+}
+
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border: none;
+  background: transparent;
+  color: #0f172a;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: background-color 0.15s ease;
+}
+
+.dropdown-menu button:hover {
+  background: #f1f5f9;
+}
+
+.error-message {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border-left: 4px solid #dc2626;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
 }
 
 button.secondary {

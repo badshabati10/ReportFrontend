@@ -85,4 +85,13 @@ export class AuthService {
   private readStored(key: string): string | null {
     return localStorage.getItem(key);
   }
+
+  /**
+   * Create a new user. Expects the backend API (db2-spring-api) to expose
+   * an admin endpoint for creating users. Adjust the path if your backend
+   * uses a different route.
+   */
+  createUser(payload: { username: string; password: string; roles?: string[] }) {
+    return this.http.post(`${environment.apiUrl || ''}/api/v1/admin/users`, payload);
+  }
 }
